@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Slope Stability Analyzer V2</title><link rel="stylesheet" href="style.css">
+</head><body>
+<header><div><h1>Slope Stability Analyzer</h1><p>2D limit-equilibrium slope analysis • Circular slip surfaces</p></div><span>V2 PROTOTYPE</span></header>
+<main>
+<aside class="sidebar">
+<h2>Model</h2>
+<div class="group">
+<label>Height H (m)<input id="H" type="number" value="20" step=".5"></label>
+<label>Slope angle β (°)<input id="beta" type="number" value="35" step=".5"></label>
+<label>Crest width (m)<input id="crest" type="number" value="5" step=".5"></label>
+<label>Toe extension (m)<input id="toe" type="number" value="8" step=".5"></label>
+</div>
+<h2>Materials</h2>
+<div class="group">
+<label>Upper layer thickness (m)<input id="t1" type="number" value="12" step=".5"></label>
+<label>γ₁ (kN/m³)<input id="g1" type="number" value="18" step=".1"></label>
+<label>c′₁ (kPa)<input id="c1" type="number" value="15" step=".5"></label>
+<label>φ′₁ (°)<input id="p1" type="number" value="28" step=".5"></label>
+<label>γ₂ (kN/m³)<input id="g2" type="number" value="20" step=".1"></label>
+<label>c′₂ (kPa)<input id="c2" type="number" value="8" step=".5"></label>
+<label>φ′₂ (°)<input id="p2" type="number" value="32" step=".5"></label>
+</div>
+<h2>Water & Loading</h2>
+<div class="group">
+<label>Water table depth below crest (m)<input id="wd" type="number" value="16" step=".5" min="0"></label>
+<label>γw (kN/m³)<input id="gw" type="number" value="9.81" step=".01"></label>
+<label>Surcharge q (kPa)<input id="q" type="number" value="0" step="1"></label>
+<label>Horizontal seismic coefficient kh<input id="kh" type="number" value="0" step=".01" min="0"></label>
+<label>Vertical seismic coefficient kv<input id="kv" type="number" value="0" step=".01"></label>
+</div>
+<h2>Analysis</h2>
+<div class="group">
+<label>Method<select id="method"><option value="bishop">Simplified Bishop</option><option value="fellenius">Ordinary / Fellenius</option></select></label>
+<label>Candidate surfaces<input id="n" type="number" value="1200" min="200" max="6000" step="100"></label>
+<label>Slices<input id="ns" type="number" value="30" min="10" max="80"></label>
+<label>Target FoS<input id="target" type="number" value="1.50" step=".05"></label>
+<button id="run">Run Analysis</button>
+</div>
+<div class="small">V2 is a research/education prototype. Benchmark against validated solutions before design use.</div>
+</aside>
+<section class="page">
+<div class="summary">
+<div><small>CRITICAL FACTOR OF SAFETY</small><strong id="fos">—</strong><em id="state">Run analysis</em></div>
+<div class="stats"><p>Method <b id="mout">—</b></p><p>Center <b id="cout">—</b></p><p>Radius <b id="rout">—</b></p><p>Candidate surfaces <b id="cand">—</b></p></div>
+</div>
+<div class="cards">
+<div class="card"><h2>Critical Slope Cross-Section</h2><canvas id="cross"></canvas></div>
+<div class="card"><h2>Slip-Surface Search</h2><canvas id="search"></canvas></div>
+</div>
+<div class="card"><h2>Critical Slice Results</h2><div class="table"><table><thead><tr>
+<th>#</th><th>x</th><th>Width</th><th>Material</th><th>Height</th><th>W</th><th>α</th><th>u</th><th>Base</th>
+</tr></thead><tbody id="rows"><tr><td colspan="9">Run analysis.</td></tr></tbody></table></div></div>
+<div class="card"><h2>Parametric Sensitivity</h2><div class="param"><label>Variable<select id="param"><option value="phi">φ′</option><option value="cohesion">c′</option><option value="water">Water-table depth</option><option value="kh">kh</option><option value="surcharge">Surcharge</option></select></label><button id="sweep">Run Sweep</button></div><canvas id="chart"></canvas></div>
+</section></main>
+<script src="app.js"></script></body></html>
